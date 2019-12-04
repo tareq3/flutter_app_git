@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app_git/GitApiProvider.dart';
 import 'strings.dart';
 import 'member.dart';
 import 'package:http/http.dart' as http;
@@ -57,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _loadData();
+
   }
   
   @override
@@ -75,37 +76,35 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(Strings.appTitle),
       ),
       body:
-            ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: _members.length,
-              itemBuilder: (BuildContext context, int position){
-                return _buildRow(position);
-              },
+            FutureBuilder(
+              future: new GitApiProvider().getMembers(),
+
+              builder: (context, snapshot) {
+                if(snapshot.hasData) {
+                  List<Member> members= snapshot.data;
+                   return ListView(
+                   children: members.map((Member member){
+                     return _buildRow(member);
+                   }).toList()
+                  );
+                }else{
+                  return Center(child: CircularProgressIndicator());
+                }
+              }
             ),
 
 
       );
   }
-  _loadData() async {
-    String dataURL = "https://api.github.com/orgs/raywenderlich/members";
-    http.Response response = await http.get(dataURL);
-    setState(() {
-    final membersJSON = json.decode(response.body);
-    for(var memberJSON in membersJSON){
-      final member= Member(memberJSON["login"], memberJSON["avatar_url"]);
-      _members.add(member);
 
-    }
-    });
-  }
 
-  Widget _buildRow(int i){
+  Widget _buildRow(Member member){
     return Card(
       child: ListTile(
-        title: Text("${_members[i].login}", style: _biggerFont,),
+        title: Text("${member.login}", style: _biggerFont,),
         leading: CircleAvatar(
           backgroundColor: Colors.white70,
-          backgroundImage: NetworkImage(_members[i].avatarUrl),
+          backgroundImage: NetworkImage(member.avatar_url),
         ),
       ),
     );
