@@ -1,3 +1,9 @@
+/*
+ * Created by Tareq Islam on 12/7/19 2:14 PM
+ *
+ *  Last modified 12/7/19 2:14 PM
+ */
+
 class Member {
     String avatar_url;
     String events_url;

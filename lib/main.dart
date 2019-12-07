@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app_git/GitApiProvider.dart';
+import 'Member.dart';
 import 'strings.dart';
-import 'member.dart';
+
 
 
 void main() => runApp(MyApp());
