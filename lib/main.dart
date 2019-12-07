@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_git/GitApiProvider.dart';
 import 'strings.dart';
 import 'member.dart';
-import 'package:http/http.dart' as http;
+
 
 void main() => runApp(MyApp());
 
@@ -50,7 +50,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var _members = <Member>[];
+
 
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
